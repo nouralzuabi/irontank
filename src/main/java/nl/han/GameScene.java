@@ -1,5 +1,4 @@
 package nl.han;
-
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.YaegerEntity;
 import com.github.hanyaeger.api.media.SoundClip;
@@ -9,12 +8,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
 import static nl.han.GameSettings.*;
 
 public class GameScene extends DynamicScene implements KeyListener {
@@ -26,7 +23,7 @@ public class GameScene extends DynamicScene implements KeyListener {
     private ScoreText scoreText;
     private boolean gameFinished = true;
     private StartScreen startScreen;
-    private Tank tank; // ✅ Store a reference to the tank
+    private Tank tank;
 
     public GameScene() {
         this.random = new Random();
@@ -40,7 +37,7 @@ public class GameScene extends DynamicScene implements KeyListener {
     }
 
     private void playBackgroundMusic() {
-        SoundClip backgroundMusic = new SoundClip("Upbeat Pop Background Music - Party Time.mp3");
+        SoundClip backgroundMusic = new SoundClip("Hitman.mp3");
         backgroundMusic.play();
     }
 
@@ -50,11 +47,11 @@ public class GameScene extends DynamicScene implements KeyListener {
         addGameEntity(startScreen);
     }
 
+    // Start het Spel
     private void startGame() {
         gameFinished = false;
         startScreen.remove();
         clearEntities();
-
 
         if (tank != null) {
             tank.remove();
@@ -70,30 +67,35 @@ public class GameScene extends DynamicScene implements KeyListener {
         startRocketSpawner();
     }
 
+    // Begint met Vijanden te laten verschijnen
     private void startEnemySpawner() {
         enemySpawner = new Timeline(new KeyFrame(Duration.seconds(ENEMY_SPAWNER_TIME), event -> spawnEnemy()));
         enemySpawner.setCycleCount(Timeline.INDEFINITE);
         enemySpawner.play();
     }
 
+    // Begint met Rockets te laten verschijnen
     private void startRocketSpawner() {
         rocketSpawner = new Timeline(new KeyFrame(Duration.millis(ROCKET_SPAWNER_TIME), event -> spawnRocket()));
         rocketSpawner.setCycleCount(Timeline.INDEFINITE);
         rocketSpawner.play();
     }
 
+    // Stopt met Vijanden te laten verschijnen
     private void stopEnemySpawner() {
         if (this.enemySpawner != null) {
             this.enemySpawner.stop();
         }
     }
 
+    // Stopt met Rockets te laten verschijnen
     private void stopRocketSpawner() {
         if (this.rocketSpawner != null) {
             this.rocketSpawner.stop();
         }
     }
 
+    // Verschijnt een Enemy
     private void spawnEnemy() {
         double randomY = random.nextInt(500);
         Enemy enemy;
@@ -104,21 +106,23 @@ public class GameScene extends DynamicScene implements KeyListener {
         } else {
             enemy = new Bomb(new Coordinate2D(WIDTH, randomY));
         }
-
         addGameEntity(enemy);
     }
 
+    // Verschijnt een Rocket
     private void spawnRocket() {
         double randomY = random.nextInt(500);
         Rocket rocket = new Rocket(new Coordinate2D(WIDTH, randomY));
         addGameEntity(rocket);
     }
 
+    // Voegt een Entity toe
     public void addGameEntity(YaegerEntity entity) {
         addEntity(entity);
         activeEntities.add(entity);
     }
 
+    // Scherm Veloren
     public void gameOver() {
         stopEnemySpawner();
         stopRocketSpawner();
@@ -133,6 +137,7 @@ public class GameScene extends DynamicScene implements KeyListener {
         addGameEntity(gameStatusText);
     }
 
+    // Scherm Gewonnen
     public void youWin() {
         stopEnemySpawner();
         stopRocketSpawner();
@@ -147,6 +152,7 @@ public class GameScene extends DynamicScene implements KeyListener {
         addGameEntity(youWinText);
     }
 
+    // Verwijdert Alle Entities
     private void clearEntities() {
         for (YaegerEntity entity : activeEntities) {
             entity.remove();
@@ -154,6 +160,7 @@ public class GameScene extends DynamicScene implements KeyListener {
         activeEntities.clear();
     }
 
+    // Herstart het Spel
     private void restartGame() {
         gameFinished = false;
         clearEntities();
@@ -164,14 +171,17 @@ public class GameScene extends DynamicScene implements KeyListener {
         return scoreText.getScore();
     }
 
+    // Verhoogt de Score
     public void increaseScore(int points) {
         scoreText.increaseScore(points);
     }
 
+    // Verlaagt de Score
     public void decreaseScore(int points) {
         scoreText.decreaseScore(points);
     }
 
+    // Herstart het Spel als er op Enter wordt gedrukt
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
         if (gameFinished && pressedKeys.contains(KeyCode.ENTER)) {

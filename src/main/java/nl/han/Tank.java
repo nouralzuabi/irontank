@@ -1,5 +1,4 @@
 package nl.han;
-
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.entities.impl.SpriteEntity;
@@ -9,10 +8,8 @@ import com.github.hanyaeger.api.entities.Collided;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.Coordinate2D;
 import javafx.scene.input.KeyCode;
-
 import java.util.List;
 import java.util.Set;
-
 import static nl.han.GameSettings.*;
 
 public class Tank extends SpriteEntity implements KeyListener, Collided {
@@ -29,10 +26,12 @@ public class Tank extends SpriteEntity implements KeyListener, Collided {
         this.shootingSound = new SoundClip("shoot.mp3");
     }
 
+    // Deactiveer
     public void deactivate() {
         isActive = false;
     }
 
+    // Omgaan met drukken op Knoppen
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
         if (!isActive) return;
@@ -61,11 +60,13 @@ public class Tank extends SpriteEntity implements KeyListener, Collided {
         }
     }
 
+    // Tank schiet een Bullet
     private void fireBullet() {
-        Bullet bullet = new Bullet(new Coordinate2D(getAnchorLocation().getX() + 50, getAnchorLocation().getY() + 10), gameScene);
+        Bullet bullet = new Bullet(new Coordinate2D(getAnchorLocation().getX() + 50, getAnchorLocation().getY() + 10), gameScene); // Bullet op de correcte begin locatie
         gameScene.addGameEntity(bullet);
     }
 
+    // Verlaagt de punten met welke Entity we in aanmerking komen.
     @Override
     public void onCollision(List<Collider> collidingEntities) {
         if (!isActive) return;
@@ -84,10 +85,13 @@ public class Tank extends SpriteEntity implements KeyListener, Collided {
         }
     }
 
+    // Verwijderd de Enemy Entity
     private void handleTankCollision(DynamicSpriteEntity enemy, int scorePenalty) {
         enemy.remove();
 
         gameScene.decreaseScore(scorePenalty);
+
+        // Checkt of het Spel is afgelopen
         if (gameScene.getScore() <= 0) {
             gameScene.gameOver();
         }

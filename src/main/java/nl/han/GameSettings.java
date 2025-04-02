@@ -1,15 +1,14 @@
 package nl.han;
 
+// Hier kan je de Settings van het spel aanpassen.
 public class GameSettings {
     public static final int ENEMY_SPAWNER_TIME = 3;
     public static int ROCKET_SPAWNER_TIME = 500;
 
     public static int WIDTH = 1024;
-    public static  int HEIGHT = 600;
-
+    public static int HEIGHT = 600;
 
     public static int START_SCORE = 30;
-
     public static int MAX_SCORE = 100;
 
     public static int INCREASE_ROCKET_POINTS = 2;
@@ -29,3 +28,4 @@ public class GameSettings {
 
     public static int TANK_SIZE = 150;
 }
+
