@@ -4,11 +4,13 @@ import com.github.hanyaeger.api.Coordinate2D;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import static nl.han.GameSettings.START_SCORE;
+
 
 // Extends de Yaeger build in TextEntity
 public class ScoreText extends TextEntity {
-   private int score = START_SCORE;
+
+    public static final int START_SCORE = 30; //het moet static zijn, want we gebruiken het voor dat super constrator aangeroepen is
+    private int score = START_SCORE;
 
     public ScoreText(Coordinate2D position) {
         super(position, "Score: " + START_SCORE);

@@ -12,18 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import static nl.han.GameSettings.*;
 
 public class GameScene extends DynamicScene implements KeyListener {
 
-    private Random random;
-    private List<YaegerEntity> activeEntities;
+    private final Random random;
+    private final List<YaegerEntity> activeEntities;
     private Timeline enemySpawner;
     private Timeline rocketSpawner;
     private ScoreText scoreText;
     private boolean gameFinished = true;
     private StartScreen startScreen;
     private Tank tank;
+    public final int enemySpawnerTime = 3;
+    public final int rocketSpawnerTime = 500;
+
+    public final int width = 1024;
+    public final int height = 600;
 
     public GameScene() {
         this.random = new Random();
@@ -69,14 +73,14 @@ public class GameScene extends DynamicScene implements KeyListener {
 
     // Begint met Vijanden te laten verschijnen
     private void startEnemySpawner() {
-        enemySpawner = new Timeline(new KeyFrame(Duration.seconds(ENEMY_SPAWNER_TIME), event -> spawnEnemy()));
+        enemySpawner = new Timeline(new KeyFrame(Duration.seconds(enemySpawnerTime), event -> spawnEnemy()));
         enemySpawner.setCycleCount(Timeline.INDEFINITE);
         enemySpawner.play();
     }
 
     // Begint met Rockets te laten verschijnen
     private void startRocketSpawner() {
-        rocketSpawner = new Timeline(new KeyFrame(Duration.millis(ROCKET_SPAWNER_TIME), event -> spawnRocket()));
+        rocketSpawner = new Timeline(new KeyFrame(Duration.millis(rocketSpawnerTime), event -> spawnRocket()));
         rocketSpawner.setCycleCount(Timeline.INDEFINITE);
         rocketSpawner.play();
     }
@@ -102,9 +106,9 @@ public class GameScene extends DynamicScene implements KeyListener {
         int enemyType = random.nextInt(2);
 
         if (enemyType == 0) {
-            enemy = new Stone(new Coordinate2D(WIDTH, randomY));
+            enemy = new Stone(new Coordinate2D(width, randomY));
         } else {
-            enemy = new Bomb(new Coordinate2D(WIDTH, randomY));
+            enemy = new Bomb(new Coordinate2D(width, randomY));
         }
         addGameEntity(enemy);
     }
@@ -112,7 +116,7 @@ public class GameScene extends DynamicScene implements KeyListener {
     // Verschijnt een Rocket
     private void spawnRocket() {
         double randomY = random.nextInt(500);
-        Rocket rocket = new Rocket(new Coordinate2D(WIDTH, randomY));
+        Rocket rocket = new Rocket(new Coordinate2D(width, randomY));
         addGameEntity(rocket);
     }
 

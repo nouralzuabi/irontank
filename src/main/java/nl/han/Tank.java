@@ -1,24 +1,33 @@
 package nl.han;
+
+import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
+import com.github.hanyaeger.api.entities.Collided;
+import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.entities.impl.SpriteEntity;
 import com.github.hanyaeger.api.media.SoundClip;
 import com.github.hanyaeger.api.userinput.KeyListener;
-import com.github.hanyaeger.api.entities.Collided;
-import com.github.hanyaeger.api.entities.Collider;
-import com.github.hanyaeger.api.Coordinate2D;
 import javafx.scene.input.KeyCode;
+
 import java.util.List;
 import java.util.Set;
-import static nl.han.GameSettings.*;
 
 public class Tank extends SpriteEntity implements KeyListener, Collided {
 
     private static final double SPEED = 5;
     private final GameScene gameScene;
-    private SoundClip shootingSound;
+    private final SoundClip shootingSound;
     private boolean isShooting = false;
     private boolean isActive = true;
+
+
+    public final int decreaseRocketPoints = 2;
+    public final int decreaseStonePoints = 10;
+    public final int decreaseBombPoints = 20;
+
+
+    public static final int TANK_SIZE = 150;
 
     public Tank(Coordinate2D initialLocation, GameScene gameScene) {
         super("tank.png", initialLocation, new Size(TANK_SIZE, TANK_SIZE));
@@ -73,13 +82,13 @@ public class Tank extends SpriteEntity implements KeyListener, Collided {
 
         for (Collider entity : collidingEntities) {
             if (entity instanceof Rocket) {
-                handleTankCollision((DynamicSpriteEntity) entity, DECREASE_ROCKET_POINTS);
+                handleTankCollision((DynamicSpriteEntity) entity, decreaseRocketPoints);
                 break;
             } else if (entity instanceof Stone) {
-                handleTankCollision((DynamicSpriteEntity) entity, DECREASE_STONE_POINTS);
+                handleTankCollision((DynamicSpriteEntity) entity, decreaseStonePoints);
                 break;
             } else if (entity instanceof Bomb) {
-                handleTankCollision((DynamicSpriteEntity) entity, DECREASE_BOMB_POINTS);
+                handleTankCollision((DynamicSpriteEntity) entity, decreaseBombPoints);
                 break;
             }
         }
