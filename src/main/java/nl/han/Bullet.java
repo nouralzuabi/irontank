@@ -53,7 +53,7 @@ public class Bullet extends DynamicSpriteEntity implements Collided {
             System.out.println("Score updated! New Score: " + gameScene.getScore());
 
             if (gameScene.getScore() >= maxScore) {
-                gameScene.youWin();
+                gameScene.showEndScreen("YOU WIN! Press ENTER to Restart");
             }
         }
     }

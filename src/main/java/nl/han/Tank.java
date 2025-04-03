@@ -102,7 +102,7 @@ public class Tank extends SpriteEntity implements KeyListener, Collided {
 
         // Checkt of het Spel is afgelopen
         if (gameScene.getScore() <= 0) {
-            gameScene.gameOver();
+            gameScene.showEndScreen("GAME OVER! Press ENTER to Restart");
         }
     }
 }

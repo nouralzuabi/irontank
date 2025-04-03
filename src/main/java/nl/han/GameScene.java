@@ -126,8 +126,9 @@ public class GameScene extends DynamicScene implements KeyListener {
         activeEntities.add(entity);
     }
 
-    // Scherm Veloren
-    public void gameOver() {
+
+    // Eindscherm
+    public void showEndScreen(String message) {
         stopEnemySpawner();
         stopRocketSpawner();
         clearEntities();
@@ -137,22 +138,7 @@ public class GameScene extends DynamicScene implements KeyListener {
             tank.deactivate();
         }
 
-        GameStatusText gameStatusText = new GameStatusText(new Coordinate2D(400, 250), "GAME OVER! Press ENTER to Restart");
-        addGameEntity(gameStatusText);
-    }
-
-    // Scherm Gewonnen
-    public void youWin() {
-        stopEnemySpawner();
-        stopRocketSpawner();
-        clearEntities();
-        gameFinished = true;
-
-        if (tank != null) {
-            tank.deactivate();
-        }
-
-        GameStatusText youWinText = new GameStatusText(new Coordinate2D(400, 250), "YOU WIN! Press ENTER to Restart");
+        GameStatusText youWinText = new GameStatusText(new Coordinate2D(400, 250), message);
         addGameEntity(youWinText);
     }
 
